@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VolumeUp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="cat">Cat in the box, Meow</string>
+
+</resources>

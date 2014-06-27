@@ -1,0 +1,17 @@
+{
+  "uuid": "9bda448d-52ed-4785-ab15-09eaf3e51c48",
+  "shortName": "volumeup",
+  "longName": "volumeup",
+  "companyName": "nextgensh",
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}

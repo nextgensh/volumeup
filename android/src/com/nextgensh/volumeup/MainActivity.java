@@ -6,6 +6,7 @@ import src.com.getpebble.android.kit.PebbleKit;
 import src.com.getpebble.android.kit.util.PebbleDictionary;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,14 +28,11 @@ interface Constants {
 }
 
 public class MainActivity extends Activity implements Constants {
-
-	AudioManager am = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		am = (AudioManager)this.getSystemService(AUDIO_SERVICE);
 		
 		/* Check to see if the pebble application is connected. */
 		boolean connected = PebbleKit.isWatchConnected(getApplicationContext());
@@ -49,32 +47,8 @@ public class MainActivity extends Activity implements Constants {
 		else
 			tv.setText("Pebble not connected");
 		
-		/* Register a Broadcast receiver through pebble's wrapper functions,
-		 * to accept the volume change intents.
-		 */
-		final UUID PEBBLE_APP_UUID = UUID.fromString("9bda448d-52ed-4785-ab15-09eaf3e51c48");
-		
-		PebbleKit.registerReceivedDataHandler(this, new PebbleKit.PebbleDataReceiver(PEBBLE_APP_UUID){
-
-			@Override
-			public void receiveData(Context context, int transactionId,
-					PebbleDictionary data) {
-				// TODO Auto-generated method stub
-				if(data.getInteger(KEY) == DOWN){
-					am.adjustVolume(AudioManager.ADJUST_LOWER, 0);
-					Log.d(TAG, "Volume mute requested");
-				}
-				else if(data.getInteger(KEY) == UP){
-					am.adjustVolume(AudioManager.ADJUST_RAISE, 0);
-					Log.d(TAG, "Volume up requested");
-				}
-				else if(data.getInteger(KEY) == MUTE){
-					/* Working, go slow. */
-				}
-				
-				/* Send the ack back to my nice little watch app. */
-				PebbleKit.sendAckToPebble(getApplicationContext(), transactionId);
-			}
-		});
+		/* Start the volumeup service. */
+		Intent servicestart = new Intent(this, MainService.class);
+		this.startService(servicestart);
 	}
 }
